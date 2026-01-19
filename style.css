@@ -101,9 +101,15 @@ li {
 ul ul {
     padding-left: 40px;
     margin-top: 8px;
+    list-style: none;
 }
 
 ul ul li::before {
+    content: "";
+}
+
+/* Only show bullets for regular nested items, not details */
+ul ul li:not(:has(details))::before {
     content: "◦ ";
     color: #666;
     margin-right: 8px;
