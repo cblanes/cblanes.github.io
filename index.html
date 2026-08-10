@@ -4,64 +4,342 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camila Blanes</title>
-    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --accent: #1a73e8;   /* paper titles + links */
+            --gray:   #6b7280;   /* (Job Market Paper), coauthors, contact */
+            --text:   #222;
+            --rule:   #cfcfcf;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            color: var(--text);
+            background: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* ---------- Navigation ---------- */
+        nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            padding: 18px 40px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+        }
+        nav a { color: var(--gray); }
+        nav a:first-child { font-weight: 600; color: var(--text); }
+
+        /* ---------- Layout ---------- */
+        main {
+            display: flex;
+            align-items: flex-start;
+            gap: 60px;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 50px 40px 80px;
+        }
+
+        .sidebar {
+            flex: 0 0 260px;
+            position: sticky;
+            top: 40px;
+        }
+
+        /* Photo is cut (not zoomed): the frame crops the tall 3:4 original to a
+           square, and margin-top chooses which vertical slice shows. The image
+           stays at natural scale — width: 100% — so the face is never enlarged.
+           Tweaks: max-width = displayed size; aspect-ratio = how square the crop
+           is; margin-top = slide the photo up (more negative) or down. */
+        .photo-frame {
+            width: 100%;
+            max-width: 200px;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+        .photo-frame img {
+            display: block;
+            width: 100%;
+            margin-top: -16%;
+        }
+
+        .sidebar h1 {
+            font-size: 1.35rem;
+            line-height: 1.3;
+            font-weight: 600;
+            margin: 0 0 14px;
+        }
+
+        .sidebar p {
+            font-size: 0.92rem;
+            line-height: 1.55;
+            margin: 0 0 10px;
+        }
+
+        .contact-info {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px solid #eee;
+        }
+        .contact-info p { color: var(--gray); margin: 0 0 6px; }
+        .contact-info a { color: var(--gray); }
+        .contact-info svg {
+            width: 15px; height: 15px;
+            vertical-align: -2px;
+            margin-right: 7px;
+        }
+
+        .main-content { flex: 1 1 auto; min-width: 0; }
+        .main-content > .intro { margin-top: 0; }
+
+        /* ---------- Section heading + gray rule ---------- */
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin: 42px 0 6px;
+        }
+        .section-title:first-of-type { margin-top: 36px; }
+
+        hr.rule {
+            border: 0;
+            height: 1px;
+            background-color: var(--rule);
+            margin: 0 0 22px;
+        }
+
+        /* ---------- Papers ---------- */
+        .paper { margin-bottom: 26px; }
+
+        .paper-title {
+            margin: 0;
+            font-size: 1.02rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--accent);
+        }
+
+        .jmp {
+            color: var(--gray);
+            font-weight: 400;
+            font-size: 0.92rem;      /* matches the coauthor line */
+            white-space: nowrap;
+        }
+
+        .paper-authors {
+            margin: 1px 0 0;
+            font-size: 0.92rem;
+            color: var(--gray);
+        }
+        .paper-authors a { color: inherit; text-decoration: underline; text-decoration-color: #d5d5d5; }
+        .paper-authors a:hover { color: var(--accent); }
+
+        /* tight against the title */
+        .paper-links {
+            margin: 2px 0 0;
+            font-size: 0.9rem;
+            color: #000;              /* the [ ] brackets */
+        }
+        .paper-links .lnk { margin-right: 8px; }
+        .paper-links .toggle { cursor: pointer; user-select: none; }
+
+        .abstract {
+            display: none;
+            margin: 8px 0 0 18px;
+            padding-right: 6px;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            text-align: justify;
+            color: #333;
+        }
+        .abstract.open { display: block; }
+        .abstract p { margin: 0; }
+
+        /* ---------- Mobile ---------- */
+        @media (max-width: 800px) {
+            nav { padding: 16px 24px; }
+            main {
+                flex-direction: column;
+                gap: 32px;
+                padding: 32px 24px 60px;
+            }
+            .sidebar { position: static; flex: 1 1 auto; width: 100%; }
+            .photo-frame { max-width: 170px; }
+        }
+    </style>
 </head>
 <body>
+
     <!-- Navigation -->
     <nav>
         <a href="index.html">Camila Blanes</a>
-        <a href="CV_CBlanes_26_01.pdf">CV</a>
+        <a href="Blanes_CV.pdf">CV</a>
     </nav>
 
-    <!-- Main Content -->
     <main>
-        <!-- Left Sidebar -->
+        <!-- Left sidebar -->
         <aside class="sidebar">
-            <img src="profile_picture.png" alt="Your Name" class="profile-image">
+            <div class="photo-frame">
+                <img src="picture_1.JPG" alt="Camila Blanes">
+            </div>
             <h1>Camila Blanes Garcia Cors</h1>
-            
+
+            <p><strong>I am on the job market in 2026&ndash;27.</strong></p>
+
             <div class="contact-info">
-                <p style="color: #666;">
-                    <svg style="width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;" viewBox="0 0 16 16" fill="currentColor">
+                <p>
+                    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                         <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
                     </svg>
-                    <a href="https://github.com/cblanes" style="color: #666;">Github</a>
+                    <a href="https://github.com/cblanes">Github</a>
                 </p>
-                <p style="color: #666;">
-                    <svg style="width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;" viewBox="0 0 16 16" fill="currentColor">
+                <p>
+                    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                         <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
                     </svg>
-                    <a href="mailto:cblanes@stanford.edu" style="color: #666;">Email</a>
+                    <a href="mailto:cblanes@stanford.edu">cblanes@stanford.edu</a>
                 </p>
             </div>
         </aside>
 
-        <!-- Main Content Area -->
+        <!-- Main content -->
         <section class="main-content">
-            <p>I am a 4th-year Ph.D candidate in Political Economics at Stanford GSB. I study the political economy of media, focusing on how governments shape the media environment.</p>
 
-            <h2>Research</h2>
-            
-            <h3>Working Papers</h3>
-            <ul>
-                <li>
-                    Allocating Influence: The Effects of Government Advertising on Mexico's News Market
-                    <ul>
-                        <li>
-                            <details>
-                                <summary style="cursor: pointer; color: #1a73e8;">Abstract</summary>
-                                <p style="margin-top: 10px; color: #333;">
-                                    Governments are major advertisers in many countries, yet little is known about how they allocate discretionary advertising and whether these allocations distort media markets. Using administrative data on federal government advertising in Mexico from 2014–2022, I show that governments systematically favor ideologically aligned outlets. Exploiting the 2018 transition from right-wing to left-wing administration, I find that aligned outlets are 19.7 percentage points more likely to receive advertising. This preferential treatment persists even when comparing campaigns with identical target audiences, indicating favoritism beyond communication goals. Governments also pay price premiums to aligned outlets, both relative to market rates and above the cost-efficient benchmark for reaching target audiences. I quantify the trade-off between reaching target audiences and rewarding aligned outlets. Ideological misalignment reduces the probability of receiving advertising by 7.7 percentage points, while audience similarity increases it by 23.4 percentage points, revealing the government's willingness to sacrifice efficiency for partisan media. These allocations have significant downstream effects in the media market: aligned outlets expand newsroom capacity by 23\% and article production by 21\%, while misaligned outlets—particularly those dependent on government advertising—contract substantially. This represents a novel mechanism of media capture in competitive markets, where governments reshape the information environment through selective subsidization rather than direct censorship or explicit favor exchange.
-                                </p>
-                            </details>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    Career Concerns and Party Discipline: Evidence from Mexican Legislative Debates (with <a href="http://www.glmoctezuma.com" style="color: #666;">Gabriel Lopez Moctezuma</a>)
-                </li>
-            </ul>
+            <p class="intro">
+                I am a 5th-year Ph.D. candidate in Political Economics at the
+                <strong>Stanford Graduate School of Business</strong>.
+            </p>
+            <p>
+                My research examines media capture and political accountability using quantitative
+                methods, including causal inference and text analysis. Most of my work focuses on
+                Mexico, where I build original datasets from government advertising contracts, news
+                archives, and legislative records.
+            </p>
+
+            <h2 class="section-title">Working Papers</h2>
+            <hr class="rule">
+
+            <!-- ============ Job Market Paper ============ -->
+            <article class="paper">
+                <p class="paper-title">
+                    Allocating Influence: Government Advertising in Mexico&rsquo;s News Market
+                    <span class="jmp">(Job Market Paper)</span>
+                </p>
+                <p class="paper-links">
+                    <span class="lnk">[<a class="toggle" href="#" onclick="toggleAbstract('abs-gov-ads'); return false;">Abstract</a>]</span>
+                    <span class="lnk">[<a href="Blanes_JMP_GovernmentAdvertising.pdf" target="_blank" rel="noopener">Paper</a>]</span>
+                </p>
+                <div class="abstract" id="abs-gov-ads">
+                    <p>
+                        In many countries, governments are major media advertisers. Due to their prominent role,
+                        it is unclear whether they use their market power for political ends, and, if so, how they
+                        leverage that power. I study these questions in Mexico, where the government is one of the
+                        largest advertisers. Using novel data on advertising contracts and a comprehensive corpus
+                        of articles from national print media, I provide evidence of political favoritism. I use
+                        the 2018 transition from a right-wing to a left-wing federal administration and show that
+                        aligned outlets are 18.3 percentage points more likely to receive a contract. I benchmark
+                        these allocations against what a government would choose if it were buying audience reach
+                        efficiently or targeting its own voters. The observed allocation overpays outlets based on
+                        their ideology. The allocation of advertising to aligned media allows them to expand their
+                        newsroom capacity and their news production relative to misaligned outlets. The increase
+                        in production attracts more readers and raises circulation at aligned outlets. Lastly, I
+                        show that the resulting circulation gains are driven mostly by the expansion in content
+                        rather than by shifts in reader preferences. Overall, these findings reveal a mechanism of
+                        media capture in competitive markets that requires neither censorship nor an exchange of
+                        coverage for revenue.
+                    </p>
+                </div>
+            </article>
+
+            <!-- ============ Party Discipline (no PDF link) ============ -->
+            <article class="paper">
+                <p class="paper-title">
+                    Party Discipline across Electoral Mandates and Career Concerns: Theory and Evidence
+                    from Votes and Speech in the Mexican Congress
+                </p>
+                <p class="paper-authors">
+                    with <a href="http://www.glmoctezuma.com" target="_blank" rel="noopener">Gabriel L&oacute;pez-Moctezuma</a>
+                </p>
+                <p class="paper-links">
+                    <span class="lnk">[<a class="toggle" href="#" onclick="toggleAbstract('abs-party-discipline'); return false;">Abstract</a>]</span>
+                </p>
+                <div class="abstract" id="abs-party-discipline">
+                    <p>
+                        We study how party discipline varies with electoral mandates and career concerns. In our
+                        model, partisan benefits induce discipline insofar as leaders rally enough support among
+                        their legislators to make their promises credible. Absent reelection, constituency concerns
+                        offset the leader&rsquo;s promises, leaving district legislators less disciplined than their
+                        list copartisans. Reelection makes these benefits electorally valuable, directly improving
+                        district legislators&rsquo; local valence and list legislators&rsquo; renomination prospects,
+                        and indirectly strengthening the leader&rsquo;s credibility in both tracks. We test the
+                        empirical implications of the model in Mexico&rsquo;s mixed-member Congress around the reform
+                        introducing consecutive reelection. We measure disagreement with party leaders in votes and
+                        speech across seven Congresses (2006&ndash;2024): disagreement falls in both tracks after the
+                        reform, most among district incumbents. Leaders, in turn, redirect partisan benefits toward
+                        district incumbents ex ante and reward the disciplined while punishing dissenters ex post.
+                        Accountability reforms that leave ballot access, list placement, and campaign finance in
+                        party hands can strengthen the organization they were meant to check.
+                    </p>
+                </div>
+            </article>
+
+            <!-- ============ Council Size ============ -->
+            <article class="paper">
+                <p class="paper-title">
+                    The More the Merrier? The Effects of Council Size on Representation and Local Governance
+                </p>
+                <p class="paper-links">
+                    <span class="lnk">[<a class="toggle" href="#" onclick="toggleAbstract('abs-council-size'); return false;">Abstract</a>]</span>
+                    <span class="lnk">[<a href="Blanes_CouncilSize.pdf" target="_blank" rel="noopener">Paper</a>]</span>
+                </p>
+                <div class="abstract" id="abs-council-size">
+                    <p>
+                        Does broader political representation improve local governance? I use population thresholds
+                        in Mexican state law that fix the size of a municipal council, comparing municipalities just
+                        above a threshold with those just below, and link novel data on the characteristics of every
+                        council member to the output that council produces in office. Crossing a threshold seats 12
+                        percent more representatives, and they are negatively selected: councils gain more members
+                        with a basic level of education and with no prior political experience, while parity rules
+                        hold the share of women fixed. Governance does not improve. Larger councils approve about
+                        half as many initiatives, a third fewer per member, across a narrower agenda, and their
+                        alignment with the preferences of citizens decreases; spending is unchanged in level and
+                        composition. I interpret this as negative selection at the margin of the party list: the
+                        supply of candidates is smooth at the threshold, but lists are closed and ranked, and parties
+                        concentrate their strongest candidates where the return to quality is highest.
+                    </p>
+                </div>
+            </article>
+
         </section>
     </main>
+
+    <script>
+        // Toggle one abstract open/closed; opening one closes any other.
+        function toggleAbstract(id) {
+            var target = document.getElementById(id);
+            var isOpen = target.classList.contains('open');
+
+            var all = document.querySelectorAll('.abstract.open');
+            for (var i = 0; i < all.length; i++) {
+                all[i].classList.remove('open');
+            }
+
+            if (!isOpen) {
+                target.classList.add('open');
+            }
+        }
+    </script>
+
 </body>
 </html>
